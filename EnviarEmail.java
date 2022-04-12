@@ -50,7 +50,6 @@ public class EnviarEmail{
 	* Clase que genera y envia el email con la url para la encuesta.
 	*
 	* @author Fco J. Becerra OTP-OPERACIONES NIVEL I
-	* @param enviarEmail Activar/desactivar el env&iacuteo del email
 	*/
 	public EnviarEmail(){
 		this.error =asignaPlantillasHtml();
@@ -187,7 +186,6 @@ public class EnviarEmail{
 	*/
 	public boolean generarMensajeEmail(String[] datosEnvio, int[] contadores){
 		boolean error =false;
-		
 		Session session =null;
 		MimeMessage message =null;
 		
@@ -234,9 +232,8 @@ public class EnviarEmail{
 			}
 		}
 		
-		if(!error){
+		if(!error){	//Crear el mensaje
 			try{
-				//Crear el mensaje
 				message = new MimeMessage(session);
 				message.setFrom(new InternetAddress(this.propertiesConfiguracionEmail.getProperty("mail.smtp.from")));
 				message.addRecipients(Message.RecipientType.TO,datosEnvio[0]);								
@@ -249,7 +246,6 @@ public class EnviarEmail{
 		if(!error)
 		{	
 			try{
-				
 				String asunto ="Encuesta de calidad CSU - ";
 				if(datosEnvio[1].indexOf("I")!=-1){
 					asunto +="Incidencia";
@@ -261,7 +257,6 @@ public class EnviarEmail{
 				
 				//Cuerpo del mensaje
 				MimeMultipart multipart = new MimeMultipart();
-				
 				//Convertir cuerpo en html
 				final MimeBodyPart  messageBodyPart = new MimeBodyPart();
 				
@@ -271,35 +266,25 @@ public class EnviarEmail{
 				}else{
 					messageBodyPart.setContent(this.cuerpoMensajeHTML.get(1), "text/html;charset=UTF-8");
 				}
-				
-				
+					
 				multipart.addBodyPart(messageBodyPart);
+				message.setContent(multipart); //Asignar el contenido
 				
-				//Asignar el contenido
-				message.setContent(multipart);
-				
-
-				this.enviarEmail =Boolean.parseBoolean(this.propertiesConfiguracionEmail.getProperty("enviarEmails"));
-				//System.out.println(this.propertiesConfiguracionEmail.getProperty("enviarEmails"));
+				this.enviarEmail =Boolean.parseBoolean(this.propertiesConfiguracionEmail.getProperty("enviarEmails"));				
 
 				if(this.enviarEmail)
 				{
 					GenerarLog.lineaLog("INFO","\t <ENVIANDO EMAIL> ");
-					SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
-                      // connect
+					SMTPTransport t = (SMTPTransport) session.getTransport("smtp"); 
 					t.connect(this.propertiesConfiguracionEmail.getProperty("mail.smtp.host"), this.propertiesConfiguracionEmail.getProperty("mail.smtp.from"), this.propertiesConfiguracionEmail.getProperty("mail.smtp.proxy.password"));
-            
-					// send
 					t.sendMessage(message, message.getAllRecipients());
-					GenerarLog.lineaLog("INFO","\t <--EMAIL ENVIADO--> ");					
-										
+					GenerarLog.lineaLog("INFO","\t <--EMAIL ENVIADO--> ");								
 					t.close();
 					mensajesOK++;
 				}
 				else{
 					GenerarLog.lineaLog("INFO","<ENVIAR EMAIL DESACTIVADO> ");
 					mensajesKO++;
-					//error =true;
 				}
 						
 			}catch(Exception ex){
@@ -317,7 +302,7 @@ public class EnviarEmail{
 	* @author OTP-OPERACIONES NIVEL I
 	* @version 1.0
 	*/
-	public void getMensajesOK_KO(){
+	public void verMensajesOK_KO(){
 		GenerarLog.lineaLog("INFO","<EMAILS ENVIADOS> ["+this.mensajesOK+"]");
 		GenerarLog.lineaLog("INFO","<EMAILS NO ENVIADOS> ["+this.mensajesKO+"]");
 	}
