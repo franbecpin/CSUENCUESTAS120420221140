@@ -302,7 +302,7 @@ public class EnviarEmail{
 	* @author OTP-OPERACIONES NIVEL I
 	* @version 1.0
 	*/
-	public void verMensajesOK_KO(){
+	public void verMensajesOKyKO(){
 		GenerarLog.lineaLog("INFO","<EMAILS ENVIADOS> ["+this.mensajesOK+"]");
 		GenerarLog.lineaLog("INFO","<EMAILS NO ENVIADOS> ["+this.mensajesKO+"]");
 	}

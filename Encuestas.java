@@ -78,7 +78,7 @@ public class Encuestas{
 					error=enviarEmail.generarMensajeEmail(datosEnvio,contadores);
 				}
 			}
-			enviarEmail.verMensajesOK_KO();
+			enviarEmail.verMensajesOKyKO();
 		}
 		
 		GenerarLog.lineaLog("INFO","***** ============================ ****");	
