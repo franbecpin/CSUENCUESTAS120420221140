@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashSet;
 
@@ -229,11 +228,9 @@ public final class ExcelIncidencias{
 		File archivoIncidencias =null;
 		
 		try{
-			
 			archivoIncidencias =new File(nombreArchivoIncidencias);
 			if(archivoIncidencias.isFile() && archivoIncidencias.exists()) {
-				GenerarLog.lineaLog("INFO","<ENCONTRADO FICHERO> \t"+archivoIncidencias);
-				GenerarLog.lineaLog("INFO","<ARCHIVO> \t\t"+archivoIncidencias.getName());
+				GenerarLog.lineaLog("INFO","<ENCONTRADO FICHERO> \t"+archivoIncidencias.getName());
 				GenerarLog.lineaLog("INFO","<CONTENIDO> " +archivoIncidencias.length());
 			} 
 			else{
@@ -251,8 +248,7 @@ public final class ExcelIncidencias{
 		{
 			try
 			{
-				/* UPDATE 08/04/2022 */
-				/* Abrir el fichero */
+				/* UPDATE 08/04/2022 - Abrir el fichero */
 				FileReader fr = new FileReader(nombreArchivoIncidencias);
 				CSVReader reader = new CSVReader(fr);
 				String[] nextLine;
@@ -266,7 +262,6 @@ public final class ExcelIncidencias{
 				* texto que aparece en el campo "Descripcion", que puede contener 
 				* correos electronicos completos con "; or \n o lineas en blanco"
 				*/
-				//final int POS_CODINCIDENCIA =0;
 				final int POS_TIPO =4;
 				final int POS_DEPARTAMENTO =7;
 				final int POS_SOLICITANTEVIP =10;
@@ -276,9 +271,8 @@ public final class ExcelIncidencias{
 				GenerarLog.lineaLog("INFO","<TRATANDO LINEAS> ");
 					
 				while ((nextLine = reader.readNext()) != null) 
-				{
-					// La linea 0 es de cabeceras
-					if(lineas>0){
+				{					
+					if(lineas>0){ // La linea 0 es de cabeceras
 						for (String e : nextLine) 
 						{
 							lineaActual =e.split(this.SEPARADOR); // Campos
@@ -294,9 +288,8 @@ public final class ExcelIncidencias{
 								if(lineaActual[lineaActual.length-POS_SOLICITANTEVIP].contains("VIP")){
 									lineasVIP++;
 								}else
-								{ //Linea se usuario normal
-									//Solo se aceptan las incidencias cerradas
-									
+								{
+									//Linea de usuario normal -> Solo se aceptan las incidencias cerradas
 									if(lineaActual[2].toUpperCase().replaceAll("\"","").trim().equals("CERRADO"))
 									{
 										RegistroIncidencia registroIncidencia =new RegistroIncidencia();
@@ -324,8 +317,7 @@ public final class ExcelIncidencias{
 				GenerarLog.lineaLog("INFO","\t <LINEAS TRATADAS> \t["+lineas+"]");
 				GenerarLog.lineaLog("INFO","\t <LINEAS VIP EXCLUIDAS> \t["+lineasVIP+"]");
 				GenerarLog.lineaLog("INFO","\t <LINEAS INCIDENCIA NO CERRADAS> \t["+lineasNoCerradas+"]");
-				GenerarLog.lineaLog("INFO","\t <LINEAS TRATADAS> \t["+lineasReales+"]");
-				
+				GenerarLog.lineaLog("INFO","\t <LINEAS TRATADAS> \t["+lineasReales+"]");				
 			} catch (Exception e) 
 			{
 				error =true;
