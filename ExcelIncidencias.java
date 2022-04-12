@@ -22,9 +22,6 @@ import java.io.*;
 import java.util.HashMap;
 
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
-import org.apache.commons.lang3.ObjectUtils;
-
 
 /**
 * Extraer las incidencias.
@@ -190,7 +187,7 @@ public final class ExcelIncidencias{
 	/* Campos de informacion para el email 
 	* @author Fco J. Becerra OTP-OPERACIONES NIVEL I 
 	*/
-	private ArrayList<Integer> camposTratados =new ArrayList<Integer>(){
+	/*private ArrayList<Integer> camposTratados =new ArrayList<Integer>(){
 		{
 			add(0); 	//num_Incidencia
 			add(2); 	//estado
@@ -198,7 +195,7 @@ public final class ExcelIncidencias{
 			add(23); 	//departamento
 			add(26); 	//tipoIncidencia
 		}
-	};
+	};*/
 			
 	
 	
@@ -269,7 +266,7 @@ public final class ExcelIncidencias{
 				* texto que aparece en el campo "Descripcion", que puede contener 
 				* correos electronicos completos con "; or \n o lineas en blanco"
 				*/
-				final int POS_CODINCIDENCIA =0;
+				//final int POS_CODINCIDENCIA =0;
 				final int POS_TIPO =4;
 				final int POS_DEPARTAMENTO =7;
 				final int POS_SOLICITANTEVIP =10;
@@ -289,7 +286,7 @@ public final class ExcelIncidencias{
 							if(lineas==1) { asignarValorInicioLinea(lineaActual[0]);} 
 							
 							//Controlamos que sea un codigo de incidencia valido
-							if(lineaActual[0].substring(0,3).equals(this.INICIOLINEA))
+							if(lineaActual[0].substring(0,2).equals(this.INICIOLINEA))
 							{
 								lineasReales++;
 								
@@ -379,7 +376,7 @@ public final class ExcelIncidencias{
 	* @param campo Campo de la l&iacutenea
 	*/
 	public void asignarValorInicioLinea(String campo){
-		this.INICIOLINEA =campo.substring(0,3);	
+		this.INICIOLINEA =campo.substring(0,2);	
 		//System.out.println("[TEST] this.INICIOLINEA]: "+campo);	
 		/*Comprobar que es el campo inicial
 		Una codificación Incidencias de ejemplo es:
