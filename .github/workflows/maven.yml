@@ -6,9 +6,7 @@ on: #Tipo de Evento
   push:
     branches: 
       - feature/* #Solo para las ramas feature  
-  commit_comment:
-    branches: 
-      - feature/* #Solo para las ramas feature
+  
   
 
 jobs:
