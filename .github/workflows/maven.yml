@@ -1,28 +1,30 @@
 # ESte workflow hará un buiild de un proyecto Java con Maven, cada vez que se haga push en el repositorio.
 
-name: Java CI with Maven
+name: Prueba GithubActions - Java CI with Maven
 
-on:
+on: #Tipo de Evento
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: 
+      - feature/* #Solo para las ramas feature  
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
+  build-nuestraAplicacion: #nombre del job
+    runs-on: ubuntu-latest #Maquina virtual para ejecucion
+    steps: #Pasos del job
+    - name: Checkout de la rama
+      run: echo "Haciendo el chekout..." #Action para hacer log
+    - uses: actions/checkout@v4 #Actions para pasar la rama a la maquina virtual de despliegue.
+                                #La hemos encontrado en https://github.com/marketplace/actions/checkout 
+                                #y se indica la version
+     
+    - name: Set up JDK 17 #Version java
+      uses: actions/setup-java@v3 #Setup y version
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml #Lanza maven
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
